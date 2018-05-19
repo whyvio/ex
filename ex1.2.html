@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ex1.2</title>
+	<link rel="stylesheet" href="../CSS/style.css">
+	<script type="text/javascript" src="../js/jquery.1.10.2.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            var container = $('#container');
+            var list = $('#list');
+            var banner = $('#banner')
+            var buttons = $('#buttons span');
+            var prev = $('#prev');
+            var next = $('#next');
+            var index = 1;
+            var len = 3;
+
+            var interval = 3000;
+            var timer;
+
+
+            function animate (offset) {
+                var left = parseInt(list.css('left')) + offset;
+                if (offset>0) {
+                    offset = '+=' + offset;
+                }
+                else {
+                    offset = '-=' + Math.abs(offset);
+                }
+                list.animate({'left': offset}, 300, function () {
+                    if(left > -200){
+                        list.css('left', -1200 * len);
+                    }
+                    if(left < (-1200 * len)) {
+                        list.css('left', -1200);
+                    }
+                });
+            }
+
+            function showButton() {
+                buttons.eq(index-1).addClass('on').siblings().removeClass('on');
+            }
+
+            function play() {
+                timer = setTimeout(function () {
+                    next.trigger('click');
+                    play();
+                }, interval);
+            }
+            function stop() {
+                clearTimeout(timer);
+            }
+
+            next.bind('click', function () {
+                if (list.is(':animated')) {
+                    return;
+                }
+                if (index == 3) {
+                    index = 1;
+                }
+                else {
+                    index += 1;
+                }
+                animate(-1200);
+                showButton();
+            });
+
+            prev.bind('click', function () {
+                if (list.is(':animated')) {
+                    return;
+                }
+                if (index == 1) {
+                    index = 3;
+                }
+                else {
+                    index -= 1;
+                }
+                animate(1200);
+                showButton();
+            });
+
+            buttons.each(function () {
+                 $(this).bind('click', function () {
+                     if (list.is(':animated') || $(this).attr('class')=='on') {
+                         return;
+                     }
+                     var myIndex = parseInt($(this).attr('index'));
+                     var offset = -1200 * (myIndex - index);
+              animate(offset);
+                         index = myIndex;
+                     showButton();
+                 })
+            });
+
+            container.hover(stop, play);
+
+            play();
+
+        });
+    </script>
+</head>
+<body>
+	<div class="top">
+		<img src="../images/pic_2.jpg" alt="">
+		<ul>
+			<li><a href="">首 页<p style="color :yellow;">Home</p></a></li>
+			<div style="float:left;margin-left: 20px; width: 1px;height: 25px; background: #fff;"></div> 
+			<li><a href="">咨询<p style="color :yellow;">Information</p></a></li>
+			<div style="float:left;margin-left: 20px; width: 1px;height: 25px; background: #fff;"></div> 
+			<li><a href="">信息查询<p style="color :yellow;">Singal Query</p></a></li>
+			<div style="float:left;margin-left: 20px; width: 1px;height: 25px; background: #fff;"></div> 
+			<li><a href="">量化平台<p style="color :yellow;">Qyantitative Platform</p></a></li>
+			<div style="float:left;margin-left: 20px; width: 1px;height: 25px; background: #fff;"></div> 
+			<li><a href="">使用帮助<p style="color :yellow;">Using Help</p></a></li>
+			<div style="float:left;margin-left: 20px; width: 1px;height: 25px; background: #fff;"></div> 
+			<li><a href="">关于我们<p style="color :yellow;">About Us</p></a></li>
+			<div style="float:left;margin-left: 20px; width: 1px;height: 25px; background: #fff;"></div> 
+			<li><a href="">留言板<p style="color :yellow;">Message Board</p></a></li>
+			<div style="float:left;margin-left: 20px; width: 1px;height: 25px; background: #fff;"></div> 
+			<li><a href="">登陆/注册<p style="color :yellow;">Register/Login</p></a></li>
+		</ul>
+	</div>
+	<div id="banner">
+        <div class="bg-l"></div>
+        <div class="aboder-r"></div>
+        <div class="aboder-l"></div>
+        <div class="bg-r"></div>
+        <div id="container">
+             <div id="list" style="left: -1200px;">
+                 <img src="../images/5.jpg" alt="1" width="1200" height="500"/>
+                 <img src="../images/1.jpg" alt="1" width="1200" height="500"/>
+                 <img src="../images/2.jpg" alt="2" width="1200" height="500"/>
+                 <img src="../images/5.jpg" alt="5" width="1200" height="500"/>
+                 <img src="../images/1.jpg" alt="5" width="1200" height="500"/>
+             </div>
+         </div>
+        <a href="javascript:;" id="prev" class="arrow">&lt;</a>
+        <a href="javascript:;" id="next" class="arrow">&gt;</a>
+        <div id="buttons">
+            <span index="1" class="on"></span>
+            <span index="2"></span>
+            <span index="3"></span>
+        </div>
+    </div>
+	<div class="fun">
+		<ul>
+			<li class="one">
+				<div class="word">
+					中国A股信号查询
+				</div>
+				<div class="others">
+						<img class="fir" src="../images/pic_11.jpg" alt="">
+						<input class="put" style="border:0.5px solid #fff" type="text" placeholder="请输入股票名称或股票代码">	   <div style="float:right;margin-right: 85px; margin-top: -43px;width: 3px;height: 35px; background: #2fa0c9;"></div> 	
+						<img class="sec" src="../images/pic_12.jpg" alt="">
+				</div>
+			</li>
+			<li class="two">
+				<div class="word">
+					金融市场信号查询
+				</div>
+				<div class="others">
+					<img class="fir" src="../images/pic_11.jpg" alt="">
+					<div class="tir">
+						<li class="msn"><a href=""><u style="color: #2fa0c9; ">上证综指</u></a></li>
+						<div style="float:left;margin-left: 1018px; margin-top: -35px;width: 1px;height: 15px; background: #2fa0c9;"></div> 
+						<li class="mzn"><a href=""><u style="color: #2fa0c9; ">深证成指</u></a></li>
+						<div style="float:left;margin-left: 1105px; margin-top: -35px;width: 1px;height: 15px; background: #2fa0c9;"></div> 
+						<li class="mxn"><a href=""><u style="color: #2fa0c9; ">黄金</u></a></li>
+						<div style="float:left;margin-left: 1160px; margin-top: -35px;width: 1px;height: 15px; background: #2fa0c9;"></div> 
+						<li class="mcn"><a href=""><u style="color: #2fa0c9; ">石油</u></a></li>
+						<div style="float:left;margin-left: 1214px; margin-top: -35px;width: 1px;height: 15px; background: #2fa0c9;"></div> 
+						<li class="mvn"><a href=""><u style="color: #2fa0c9; ">美元</u></a></li>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div class="lol">
+		<hr class="linee"/>
+		<li>
+			市场监测分析
+			<p style="font-size: 12px;float: bottom;margin-left: -27px;margin-top:10px; ">Market Monitoring and Analysis</p>
+		</li>
+		<hr class="lineee"/>
+	</div>
+	<div class="loll">
+		<ul>
+			<li style="float: left;">
+				<img src="../images/pic_6.jpg" alt="" style="width: 350px;height: 210px;">
+				<div class="col"><p>请输入标题</p></div>
+				<div class="worrd">
+					<p>请输入内容请输入内容请输入内容请输入内容请输入内容请输入内容请输入内容请输入内容请输入内容请输入……<br><br>2018年4月17日</p>
+				</div>
+			</li>
+			<li style="margin-left: 130px;">
+				<img src="../images/pic_6.jpg" alt="" style="width: 350px;height: 210px;">
+				<div class="col"><p>请输入标题</p></div>
+				<div class="worrd">
+					<p>请输入内容请输入内容请输入内容请输入内容请输入内容请输入内容请输入内容请输入内容请输入内容请输入……<br><br>2018年4月17日</p>
+				</div>
+			</li>
+			<li style="margin-left: 130px;">
+				<img src="../images/pic_6.jpg" alt="" style="width: 350px;height: 210px;">
+				<div class="col"><p>请输入标题</p></div>
+				<div class="worrd">
+					<p>请输入内容请输入内容请输入内容请输入内容请输入内容请输入内容请输入内容请输入内容请输入内容请输入……<br><br>2018年4月17日</p>
+				</div>
+			</li>
+		</ul>
+		<li class="lll">
+			<a href="">>>More</a>
+		</li>
+	</div>
+	<div class="final">
+		<ul>
+			<li class="ooo">版权信息</li>
+			<li>更多市场指数，期货，商品和汇率，请联系站长！<br>Email:zhengtg@wyahoo.com;&nbsp;QQ:4478134</li>
+			<li style="color: #ddedbb;">
+				友情链接<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="">A</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="">B</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="">C</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="">D</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="">E</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="">F</a>
+			</li>
+			<img class="pic2" src="../images/pic_2.jpg" alt="">
+			<img class="pic3" src="../images/pic_13.jpg" alt="">
+			<img class="pic4" src="../images/pic_8.jpg" alt="">
+		</ul>
+	</div>
+</body>
+</html>
